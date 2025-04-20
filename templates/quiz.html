@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Time!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #a8edea, #fed6e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .option {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4e47d6;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .next-button {
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        {% if question %}
+        <form method="POST">
+            <h2>{{ question.question }}</h2>
+            {% for option in question.options %}
+                <div class="option">
+                    <label><input type="radio" name="option" value="{{ option }}" required> {{ option }}</label>
+                </div>
+            {% endfor %}
+            <button type="submit">Submit Answer</button>
+        </form>
+        {% endif %}
+
+        {% if result %}
+            <div class="result">{{ result|safe }}</div>
+            {% if not question %}
+                <div class="next-button">
+                    <a href="{{ url_for('next_question') }}">
+                        <button>Next Question</button>
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
